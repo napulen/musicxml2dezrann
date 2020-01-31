@@ -17,8 +17,38 @@
 import json
 from datetime import datetime
 import music21
+import argparse
 
 version = "0.1.0"
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "musicxml",
+        type=str,
+        help="The input MusicXML file with lyric annotations")
+    parser.add_argument(
+        "annotation_type", 
+        help="The type of annotation your lyrics are",
+        type=str,
+        metavar="annotation_type",
+        choices=[
+            "Pattern",
+            "Theme",
+            "Tonality",
+            "Modulation",
+            "Harmony",
+            "Pedal",
+            "Cadence",
+            "Harmonic sequence",
+            "Texture",
+            "Structure",
+            "Comment"
+        ],
+        default="Comment")
+    return parser.parse_args()
+
 
 if __name__ == '__main__':
     dezrann = {
@@ -30,5 +60,18 @@ if __name__ == '__main__':
         },
         "labels": []
     }
-    output = json.dumps(dezrann)
-    print(output)
+    args = parse_args()
+    filename = args.musicxml.replace('.musicxml', '')
+    # Get the annotations
+    score = music21.converter.parse(args.musicxml)
+    notes_with_lyrics = [n for n in score.flat.notes if n.lyric]
+    for n in notes_with_lyrics:
+        dezrann_entry = {
+            'type': args.annotation_type,
+            'start': n.offset,
+            'line': 'all',
+            'tag': n.lyric
+        }
+        dezrann['labels'].append(dezrann_entry)
+    with open(filename + ".dez", "w") as f:
+        f.write(json.dumps(dezrann))
