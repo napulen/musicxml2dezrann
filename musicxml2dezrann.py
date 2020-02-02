@@ -51,6 +51,12 @@ def parse_args():
 
 
 if __name__ == '__main__':
+    args = parse_args()
+    extension = ['.musicxml', '.xml', '.mxl']
+    for each_extension in extension:
+        filename = args.musicxml.replace(each_extension, '')
+    # Get the annotations
+    score = music21.converter.parse(args.musicxml)
     dezrann = {
         "meta": {
             "title": None,
@@ -60,10 +66,6 @@ if __name__ == '__main__':
         },
         "labels": []
     }
-    args = parse_args()
-    filename = args.musicxml.replace('.musicxml', '')
-    # Get the annotations
-    score = music21.converter.parse(args.musicxml)
     notes_with_lyrics = [n for n in score.flat.notes if n.lyric]
     for n in notes_with_lyrics:
         dezrann_entry = {
