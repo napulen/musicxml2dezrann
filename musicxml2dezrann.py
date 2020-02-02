@@ -76,4 +76,4 @@ if __name__ == '__main__':
         }
         dezrann['labels'].append(dezrann_entry)
     with open(filename + ".dez", "w") as f:
-        f.write(json.dumps(dezrann))
+        f.write(json.dumps(dezrann, indent=4))  # formatting JSON in a pretty way
