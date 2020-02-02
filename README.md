@@ -13,6 +13,9 @@ python musicxml2dezrann.py <input_musicxml_file> <annotation_type>
 4. The dezrann `json` file will be generated with the same name and extension `.dez`
 5. Load your `.dez` file in dezrann
 
+## Release notes, v0.2.0
+- Extensions `.musicxml` `.xml`, and `.mxl` are now supported
+
 ## Release notes, v0.1.0
 
 - Turns any encoded lyrics in the musicxml file into a **durationless** dezrann annotation
