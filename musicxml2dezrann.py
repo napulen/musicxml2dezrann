@@ -59,8 +59,8 @@ if __name__ == '__main__':
     score = music21.converter.parse(args.musicxml)
     dezrann = {
         "meta": {
-            "title": None,
-            "name": None,
+            "title": score.metadata.title,
+            "name": args.annotation_type,
             "date": str(datetime.now()),
             "producer": "musicxml2dezrann v" + version
         },
