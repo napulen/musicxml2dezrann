@@ -29,7 +29,7 @@ def parse_args():
         type=str,
         help="The input MusicXML file with lyric annotations")
     parser.add_argument(
-        "annotation_type", 
+        "annotation_type",
         help="The type of annotation your lyrics are",
         type=str,
         metavar="annotation_type",
@@ -52,9 +52,15 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    extension = ['.musicxml', '.xml', '.mxl']
-    for each_extension in extension:
-        filename = args.musicxml.replace(each_extension, '')
+    extensions = ['.musicxml', '.xml', '.mxl']
+    valid_extension = False
+    for extension in extensions:
+        if args.musicxml.endswith(extension):
+            valid_extension = True
+            filename = args.musicxml.replace(extension, '')
+            break
+    if not valid_extension:
+        raise ValueError("file extension is not supported")
     # Get the annotations
     score = music21.converter.parse(args.musicxml)
     dezrann = {
