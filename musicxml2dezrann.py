@@ -19,7 +19,7 @@ from datetime import datetime
 import music21
 import argparse
 
-version = "0.1.0"
+version = "0.2.0"
 
 
 def parse_args():
